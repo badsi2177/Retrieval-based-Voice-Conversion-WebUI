@@ -27,7 +27,7 @@ import torch.nn.functional as F
 import torch.serialization
 import fairseq.data.dictionary
 
-# السماح بتحميل Dictionary
+# إصلاح مشكلة PyTorch 2.6
 torch.serialization.add_safe_globals([fairseq.data.dictionary.Dictionary])
 
 if "privateuseone" not in device:
@@ -81,14 +81,10 @@ if not os.access(model_path, os.F_OK):
     printt(f"Error: Extracting is shut down because {model_path} does not exist.")
     exit(0)
 
-# تحميل الموديل مع الإصلاح
+# استدعاء قديم بدون وسائط إضافية
 models, saved_cfg, task = fairseq.checkpoint_utils.load_model_ensemble_and_task(
     [model_path],
     suffix="",
-    arg_overrides={},
-    strict=False,
-    load_checkpoint_heads=True,
-    weights_only=False
 )
 
 model = models[0]
